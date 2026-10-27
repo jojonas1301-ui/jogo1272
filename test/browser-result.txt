@@ -1,0 +1,9 @@
+
+> xerife-e-ladrao@3.0.0 test:browser
+> node test/browser.cjs
+
+Relógio local +7 horas corrigido; três sessões, nomes únicos, acessórios e fases funcionando.
+Mini-jogos: fios, memorizar código, levar item por toque e alavancas concluídos pelo servidor.
+T11 PASS: Atualizar preservou a tela e restaurou a sessão sem recarregar a página.
+T9 PASS: três pings >800ms mostraram o texto exato; banner sumiu após conexão boa por pelo menos 5s.
+Sem overflow vertical/horizontal em celular; botões offline desabilitados; console sem erros ou warnings.

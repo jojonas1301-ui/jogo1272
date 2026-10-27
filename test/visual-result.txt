@@ -1,0 +1,3 @@
+[desktop] sem overflow horizontal; 11 itens do cenário visíveis (mínimo 8); 3 lugares sem sobreposição; itens da mesa não cobrem personagens; texto principal ≥ 14px (29 elementos); relógio de paredes com ponteiros ligados ao tempo (05:54); tarefa em tela cheia capturada; console sem erros nem warnings
+[mobile] sem overflow horizontal; 11 itens do cenário visíveis (mínimo 8); 3 lugares sem sobreposição; itens da mesa não cobrem personagens; texto principal ≥ 14px (29 elementos); relógio de paredes com ponteiros ligados ao tempo (05:54); tarefa em tela cheia capturada; console sem erros nem warnings
+T17 PASS: capturas de lobby, intro, mesa e tarefa em celular (390x844) e desktop (1280x800) salvas em test/shots/.

@@ -1,19 +1,28 @@
 {
-  "name": "mesa-sombria",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "xerife-e-ladrao",
+  "version": "3.0.0",
+  "main": "server.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test test/game.test.js",
+    "test:browser": "node test/browser.cjs",
+    "test:visual": "node test/visual.cjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Jogo multiplayer de dedu\u00e7\u00e3o social",
+  "description": "Xerife e Ladrão v3 — reconexão e visual SVG, com regras autoritativas",
   "dependencies": {
-    "ws": "^8.22.0"
+    "express": "^5.3.0",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@sparticuz/chromium": "^153.0.0",
+    "socket.io-client": "^4.8.4"
   },
   "engines": {
     "node": ">=20"
