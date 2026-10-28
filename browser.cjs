@@ -1,6 +1,7 @@
 const {chromium}=require('@playwright/test');
 const assert=require('node:assert/strict');
-const {createGameServer}=require('../server');
+const fs=require('node:fs'),path=require('node:path');
+const {createGameServer}=require(fs.existsSync(path.join(__dirname,'server.js'))?'./server':'../server');
 (async()=>{
  const game=createGameServer();await new Promise(r=>game.server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+game.server.address().port;
  let browser;const errors=[];
@@ -22,6 +23,7 @@ const {createGameServer}=require('../server');
  for(const p of pages)await p.locator('#endPanel').waitFor({state:'visible'});
  assert.equal(errors.length,0,errors.join('\n'));console.log('PASS: três navegadores, mobile 390px, configurações, início, papéis, cinco tarefas, tiro, fim e zero erros JavaScript.');
  // The downloaded HTML also connects through file://, with no external assets.
- const ctx=await browser.newContext();const p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto('file://'+require('path').resolve(__dirname,'../public/index.html'));await p.locator('#name').fill('Arquivo local');await p.locator('#code').fill('LOCAL');await p.locator('#serverUrl').fill(base);await p.locator('#joinButton').click();await p.locator('#roomView').waitFor({state:'visible'});assert.equal(errors.length,0);console.log('PASS: HTML baixado aberto via file:// conecta ao servidor.');
+ const localHtml=fs.existsSync(path.join(__dirname,'index.html'))?path.join(__dirname,'index.html'):path.resolve(__dirname,'../public/index.html');
+ const ctx=await browser.newContext();const p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.message));await p.goto('file://'+localHtml);await p.locator('#name').fill('Arquivo local');await p.locator('#code').fill('LOCAL');await p.locator('#serverUrl').fill(base);await p.locator('#joinButton').click();await p.locator('#roomView').waitFor({state:'visible'});assert.equal(errors.length,0);console.log('PASS: HTML baixado aberto via file:// conecta ao servidor.');
  } finally {if(browser)await browser.close();await game.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

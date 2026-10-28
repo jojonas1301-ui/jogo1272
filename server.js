@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { WebSocketServer, WebSocket } = require('ws');
-const COLORS = ['#75d6b0','#ffa779','#a89bff','#f7cf68','#7cbcff','#f190ba'];
+const COLORS = ['#75d6b0','#ffa779','#a89bff','#f7cf68','#7cbcff','#f190ba','#ef6b6b','#64d2d6','#9be070','#d49b6a','#c985f7','#b8c7d4'];
 const integer = (n,min,max) => Number.isInteger(n) && n>=min && n<=max;
 function createGameServer({tickMs=250, notificationMs=5000, disconnectMs=45000}={}) {
  const rooms = new Map();
@@ -17,7 +17,7 @@ function createGameServer({tickMs=250, notificationMs=5000, disconnectMs=45000}=
  });
  const wss = new WebSocketServer({server,maxPayload:8192});
  const send=(ws,type,data={})=>{if(ws?.readyState===WebSocket.OPEN) ws.send(JSON.stringify({type,...data}));};
- function snapshot(r,p){return {code:r.code,hostId:r.hostId,phase:r.phase,settings:r.settings,winner:r.winner,reason:r.reason,remaining:r.phase==='playing'?Math.max(0,Math.ceil((r.endsAt-Date.now())/1000)):0,players:[...r.players.values()].map(x=>({id:x.id,name:x.name,color:x.color,alive:x.alive,connected:!!x.ws,role:r.phase==='ended'?x.role:null})),you:{id:p.id,role:r.phase==='lobby'?null:p.role,alive:p.alive,done:p.done||[],killReadyAt:p.killReadyAt||0,shotReadyAt:p.shotReadyAt||0,tasks:p.tasks||[]},events:r.events.slice(-12)};}
+ function snapshot(r,p){return {code:r.code,hostId:r.hostId,phase:r.phase,round:r.round||0,settings:r.settings,winner:r.winner,reason:r.reason,remaining:r.phase==='playing'?Math.max(0,Math.ceil((r.endsAt-Date.now())/1000)):0,players:[...r.players.values()].map(x=>({id:x.id,name:x.name,color:x.color,alive:x.alive,connected:!!x.ws,role:r.phase==='ended'?x.role:null})),you:{id:p.id,role:r.phase==='lobby'?null:p.role,alive:p.alive,done:p.done||[],killReadyAt:p.killReadyAt||0,shotReadyAt:p.shotReadyAt||0,tasks:p.tasks||[]},events:r.events.slice(-12)};}
  const broadcast=r=>{for(const p of r.players.values())send(p.ws,'state',snapshot(r,p));};
  function event(r,text){r.events.push({id:crypto.randomUUID(),text,time:Date.now()});if(r.events.length>30)r.events.shift();}
  function finish(r,winner,reason){if(r.phase!=='playing')return;r.phase='ended';r.winner=winner;r.reason=reason;event(r,reason);broadcast(r);}

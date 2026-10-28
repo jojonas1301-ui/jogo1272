@@ -1,7 +1,8 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {WebSocket}=require('ws');
-const {createGameServer}=require('../server');
+const fs=require('node:fs'),path=require('node:path');
+const {createGameServer}=require(fs.existsSync(path.join(__dirname,'server.js'))?'./server':'../server');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function setup(t,n=3,settings={}){
  const g=createGameServer({tickMs:30,notificationMs:90,disconnectMs:150});await new Promise(r=>g.server.listen(0,'127.0.0.1',r));

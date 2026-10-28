@@ -1,0 +1,9 @@
+node_modules/
+*.log
+# capturas temporárias de verificação
+.shot-*.png
+.crop-*.png
+.preview-*.png
+.dbg*.cjs
+.domtest.cjs
+.shot*.cjs

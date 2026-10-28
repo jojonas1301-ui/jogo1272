@@ -2,6 +2,19 @@
 
 Jogo multiplayer em português para 3–12 pessoas. Personagens permanecem à mesa, com tarefas na interface e papéis secretos. HTML sem bibliotecas, fontes ou imagens externas; servidor Node.js + WebSocket.
 
+## O que há na tela
+
+- **Sala desenhada em SVG**: paredes de tábuas, janela com luz fria, prateleiras, piso e um facho de luar atravessando o ambiente.
+- **Mesa de madeira** com veios, aro esculpido, arranhões, marca de copo e objetos espalhados: rádio, caixa de ferramentas, alicate, chave, baralho, moedas e caneca.
+- **Lanterna** desenhada com chama animada, halo que pulsa e poeira suspensa na luz.
+- **Personagens** com três variações de cabelo, corpo em SVG, cadeira própria, sombra no chão e anel de nome (o seu fica destacado em verde).
+- **Gestos**: ao fazer tarefa ou atacar, o mesmo movimento de mão + engrenagem aparece no assento — sem revelar o papel.
+- **Eliminados** ficam em cinza com uma caveira sobre o assento; jogadores offline aparecem esmaecidos com a etiqueta `offline`.
+- **Painel de controle** com anel de tempo que se esvazia, papel secreto com cor por papel, barra de progresso das tarefas e recarga animada do botão de ação.
+- **Fim de rodada** com revelação de todos os papéis na mesa e numa lista, mostrando quem sobreviveu.
+- **Registro ao vivo** com horário de cada acontecimento, destaque na última linha.
+- Tudo responsivo (testado em 390px), com `prefers-reduced-motion` respeitado e sem rolagem horizontal.
+
 ## Importante: como o multiplayer funciona
 
 **Baixar o HTML não cria uma conexão entre aparelhos sozinho.** Todos precisam apontar para a mesma instância do servidor e usar o mesmo código de sala. O servidor precisa continuar ligado. Cada código cria uma sala diferente.
@@ -20,6 +33,8 @@ npm start
 No Windows, você também pode abrir `iniciar-windows.bat`, depois de instalar Node.js.
 
 Abra `http://localhost:3000`. Informe nome, roupa e código (ex.: AMIGOS). O endereço do servidor já estará preenchido. A primeira pessoa a entrar é dona da sala.
+
+Quem já está na sala pode usar **Convite** para copiar um link com sala e servidor preenchidos; **Código** copia apenas o código.
 
 ### Amigos na mesma rede Wi-Fi
 
@@ -40,14 +55,14 @@ Hospede esta pasta em um serviço que execute **Node.js e aceite conexões WebSo
 
 Há também um `Dockerfile` para hospedagem em contêiner. Não coloque apenas o HTML em uma hospedagem estática: ela não executará o servidor multiplayer.
 
-Depois de hospedar, compartilhe o endereço HTTPS e um código de sala. As pessoas podem abrir o site ou abrir o `public/index.html` baixado e preencher o campo **Endereço do servidor** com esse HTTPS.
+Depois de hospedar, compartilhe o endereço HTTPS e um código de sala. As pessoas podem abrir o site ou abrir o `index.html` baixado e preencher o campo **Endereço do servidor** com esse HTTPS.
 
 ## 2. Usar apenas o arquivo HTML como cliente
 
-O arquivo é `public/index.html`. Abra no navegador e preencha:
+O arquivo é `index.html` (há uma cópia idêntica em `Mesa-Sombria.html`). Abra no navegador e preencha:
 
 1. Seu nome.
-2. Cor do casaco.
+2. Cor do casaco (12 opções).
 3. Código da sala (3 a 16 letras, números ou hífens).
 4. Endereço do servidor online, por exemplo `https://seu-servidor.com`.
 
@@ -83,7 +98,7 @@ Use janelas/perfis independentes para simular pessoas diferentes; algumas formas
 
 ## Testes
 
-Execute:
+Execute na raiz do projeto:
 
 ```sh
 npm ci
@@ -96,19 +111,20 @@ Para o teste de interface (opcional):
 
 ```sh
 npx playwright install --with-deps chromium
-node test/browser.cjs
+node browser.cjs
 ```
 
-O teste abre três sessões, incluindo tela de 390px, faz as cinco tarefas, encerra a rodada e verifica o arquivo local. As capturas são gravadas em `test/desktop.png` e `test/mobile.png`.
+O teste abre três sessões, incluindo tela de 390px, faz as cinco tarefas, encerra a rodada e verifica o arquivo local. As capturas são gravadas em `desktop.png` e `mobile.png`.
 
 ## Estrutura
 
-- `public/index.html`: interface completa, CSS e JavaScript no próprio arquivo.
+- `index.html`: interface completa, CSS, SVG e JavaScript no próprio arquivo (`Mesa-Sombria.html` é uma cópia idêntica).
 - `server.js`: salas, sorteio e regras do jogo.
 - `package.json` / `package-lock.json`: dependências e comandos.
-- `test/game.test.js`: testes automáticos das regras.
-- `test/browser.cjs`: teste de interface com Chromium.
+- `game.test.js`: testes automáticos das regras.
+- `browser.cjs`: teste de interface com Chromium.
 - `Dockerfile`: opção para executar o servidor em contêiner.
+- `Mesa-Sombria-completo.zip`: pacote pronto para enviar a outras pessoas (mesmo conteúdo, na pasta `mesa-sombria/`).
 
 ## Limites
 

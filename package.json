@@ -6,16 +6,20 @@
     "test": "test"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test game.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Jogo multiplayer de dedu\u00e7\u00e3o social",
+  "description": "Jogo multiplayer de dedução social",
   "dependencies": {
     "ws": "^8.22.0"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1"
   }
 }
